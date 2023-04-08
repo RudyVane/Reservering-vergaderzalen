@@ -1,0 +1,50 @@
+<?php
+    var m = new MailMessage();
+
+    m.Subject = "Meeting";
+
+    m.Body = "";
+
+    string iCal = 
+@"BEGIN:VCALENDAR
+PRODID:-//Microsoft Corporation//Outlook 14.0 MIMEDIR//EN
+VERSION:2.0
+METHOD:PUBLISH
+X-MS-OLK-FORCEINSPECTOROPEN:TRUE
+BEGIN:VEVENT
+CLASS:PUBLIC
+CREATED:20140423T045933Z
+DESCRIPTION:desc
+DTEND:20201030T080000Z
+DTSTAMP:20201023T045933Z
+DTSTART:20201030T060000Z
+LAST-MODIFIED:20140423T045933Z
+LOCATION:location...
+PRIORITY:5
+SEQUENCE:0
+SUMMARY;LANGUAGE=en-us:Summary...
+TRANSP:OPAQUE
+UID:D8BFD357-88A7-455C-86BC-C2CECA9AC5C6
+X-MICROSOFT-CDO-BUSYSTATUS:BUSY
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MS-OLK-AUTOFILLLOCATION:FALSE
+X-MS-OLK-CONFTYPE:0
+BEGIN:VALARM
+TRIGGER:-PT60M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR";
+
+    using (var iCalView = AlternateView.CreateAlternateViewFromString(iCal, new System.Net.Mime.ContentType("text/calendar")))
+    {
+        m.AlternateViews.Add(iCalView);
+
+        var c = new SmtpClient();
+
+        // Send message
+        c.Send(m);
+    }
+?> 
